@@ -1,0 +1,89 @@
+﻿@page
+@model PruebaMakers.Pages.Admin.Prestamos.IndexModel
+@{
+}
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Administrador")]
+
+<h2>Solicitudes Pendientes</h2>
+
+@if (Model.PrestamosPendientes.Any())
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Monto</th>
+                <th>Plazo</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model.PrestamosPendientes)
+            {
+                <tr>
+                    <td>@p.UsuarioNombre</td>
+                    <td>@p.UsuarioEmail</td>
+                    <td>@p.Monto</td>
+                    <td>@p.PlazoEnMeses</td>
+                    <td>@p.Estado</td>
+                    <td>@p.FechaSolicitud.ToShortDateString()</td>
+                    <td>
+                        <form method="post" asp-page-handler="CambiarEstado" asp-route-id="@p.Id" asp-route-nuevoEstado="Aprobado" style="display:inline">
+                            <button class="btn btn-success btn-sm">Aprobar</button>
+                        </form>
+                        <form method="post" asp-page-handler="CambiarEstado" asp-route-id="@p.Id" asp-route-nuevoEstado="Rechazado" style="display:inline">
+                            <button class="btn btn-danger btn-sm">Rechazar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay préstamos pendientes.</p>
+}
+
+<hr />
+
+<h3>Préstamos Aprobados o Rechazados</h3>
+
+@if (Model.PrestamosProcesados.Any())
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Monto</th>
+                <th>Plazo</th>
+                <th>Estado</th>
+                <th>Fecha Solicitud</th>
+                <th>Última Actualización</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model.PrestamosProcesados)
+            {
+                <tr>
+                    <td>@p.UsuarioNombre</td>
+                    <td>@p.UsuarioEmail</td>
+                    <td>@p.Monto</td>
+                    <td>@p.PlazoEnMeses</td>
+                    <td>@p.Estado</td>
+                    <td>@p.FechaSolicitud.ToShortDateString()</td>
+                    <td>@p.FechaActualizacion?.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay préstamos aprobados o rechazados aún.</p>
+}

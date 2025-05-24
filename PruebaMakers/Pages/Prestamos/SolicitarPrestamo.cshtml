@@ -1,0 +1,55 @@
+﻿@page
+@model PruebaMakers.Pages.Prestamos.SolicitarPrestamoModel
+@{}
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Usuario")]
+
+<h2>Solicitar Préstamo</h2>
+
+<form method="post">
+    <div>
+        <label>Monto:</label>
+        <input asp-for="Prestamo.Monto" class="form-control" />
+        <span asp-validation-for="Prestamo.Monto"></span>
+    </div>
+    <div>
+        <label>Plazo (meses):</label>
+        <input asp-for="Prestamo.PlazoMeses" class="form-control" />
+        <span asp-validation-for="Prestamo.PlazoMeses"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Solicitar</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.Mensaje))
+{
+    <p class="text-success">@Model.Mensaje</p>
+}
+
+<hr />
+<h3>Mis Préstamos</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Monto</th>
+            <th>Plazo</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model.MisPrestamos)
+        {
+            <tr>
+                <td>@p.Monto</td>
+                <td>@p.PlazoEnMeses</td>
+                <td>@p.Estado</td>
+                <td>@p.FechaSolicitud.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

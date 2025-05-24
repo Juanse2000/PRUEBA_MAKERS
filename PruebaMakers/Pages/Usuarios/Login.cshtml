@@ -1,0 +1,30 @@
+﻿@page
+@model PruebaMakers.Pages.Usuarios.LoginModel
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<h2>Iniciar sesión</h2>
+
+<form method="post">
+    <div>
+        <label>Email:</label>
+        <input asp-for="Login.Email" />
+        <span asp-validation-for="Login.Email"></span>
+    </div>
+    <div>
+        <label>Contraseña:</label>
+        <input asp-for="Login.Password" type="password" />
+        <span asp-validation-for="Login.Password"></span>
+    </div>
+    <button type="submit">Ingresar</button>
+</form>
+
+@if (Model.Mensaje != null)
+{
+    <p style="color:red">@Model.Mensaje</p>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

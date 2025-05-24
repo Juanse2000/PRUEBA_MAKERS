@@ -1,0 +1,41 @@
+﻿@page
+@model PruebaMakers.Pages.Usuarios.RegistroModel
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<h2>Registro de Usuario</h2>
+
+<form method="post">
+    <div>
+        <label>Nombre:</label>
+        <input asp-for="Usuario.Nombre" />
+        <span asp-validation-for="Usuario.Nombre"></span>
+    </div>
+    <div>
+        <label>Email:</label>
+        <input asp-for="Usuario.Email" />
+        <span asp-validation-for="Usuario.Email"></span>
+    </div>
+    <div>
+        <label>Contraseña:</label>
+        <input asp-for="Usuario.Password" type="password" />
+        <span asp-validation-for="Usuario.Password"></span>
+    </div>
+    <div class="form-group">
+        <label>Rol</label>
+        <select asp-for="Usuario.RolId" asp-items="Model.Roles" class="form-control">
+            <option value="">-- Selecciona un rol --</option>
+        </select>
+    </div>
+    <button type="submit">Registrarse</button>
+</form>
+
+@if (Model.Mensaje != null)
+{
+    <p>@Model.Mensaje</p>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
